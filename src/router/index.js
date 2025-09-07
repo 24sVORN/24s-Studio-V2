@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../pages/Home.vue";
-import Services from "../pages/Services.vue";
-import Portfolio from "../pages/Portfolio.vue";
-import About from "../pages/About.vue";
-import Contact from "../pages/Contact.vue";
+
+// Lazy-loaded route components for code-splitting
+const Home = () => import("../pages/Home.vue");
+const Services = () => import("../pages/Services.vue");
+const Portfolio = () => import("../pages/Portfolio.vue");
+const About = () => import("../pages/About.vue");
+const Contact = () => import("../pages/Contact.vue");
 
 const routes = [
   {
@@ -49,6 +51,29 @@ const router = createRouter({
     }
   },
 });
+
+// Prefetch helper for hover/idle
+export const prefetchRoute = (path) => {
+  const match = routes.find((r) => r.path === path);
+  const loader = match && typeof match.component === "function" ? match.component : null;
+  if (loader) {
+    // Fire-and-forget import
+    loader();
+  }
+};
+
+// Prefetch secondary routes when the browser is idle
+const prefetchOnIdle = () => {
+  ["/services", "/portfolio", "/about", "/contact"].forEach((p) => prefetchRoute(p));
+};
+
+if (typeof window !== "undefined") {
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(prefetchOnIdle);
+  } else {
+    setTimeout(prefetchOnIdle, 1500);
+  }
+}
 
 // Update page title on route change
 router.beforeEach((to, from, next) => {

@@ -7,9 +7,12 @@
         <!-- Logo -->
         <router-link to="/" class="flex items-center space-x-2 group">
           <img
-            src="../assets/Logo/24s-Logo-white.png"
+            :src="logoUrl"
             alt="logo"
             class="w-28 h-28 object-contain"
+            decoding="async"
+            fetchpriority="high"
+            loading="eager"
           />
         </router-link>
         <!-- Desktop Navigation -->
@@ -18,6 +21,7 @@
             v-for="item in navItems"
             :key="item.name"
             :to="item.path"
+            @mouseenter="prefetchRoute(item.path)"
             class="relative px-3 py-2 text-gray-300 hover:text-white transition-colors duration-300 group"
             :class="{ 'text-white': $route.path === item.path }"
           >
@@ -33,12 +37,14 @@
         <div class="hidden md:flex items-center space-x-4">
           <router-link
             to="/portfolio"
+            @mouseenter="prefetchRoute('/portfolio')"
             class="px-4 py-2 text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-all duration-300 hover:scale-105"
           >
             View Work
           </router-link>
           <router-link
             to="/contact"
+            @mouseenter="prefetchRoute('/contact')"
             class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
           >
             Get Quote
@@ -87,6 +93,7 @@
             :key="item.name"
             :to="item.path"
             @click="closeMobileMenu"
+            @mouseenter="prefetchRoute(item.path)"
             class="block px-3 py-2 text-gray-300 hover:text-white transition-colors duration-300"
             :class="{
               'text-white bg-gray-800 rounded-lg': $route.path === item.path,
@@ -98,6 +105,7 @@
             <router-link
               to="/portfolio"
               @click="closeMobileMenu"
+              @mouseenter="prefetchRoute('/portfolio')"
               class="block w-full px-4 py-2 text-center text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-all duration-300"
             >
               View Work
@@ -105,6 +113,7 @@
             <router-link
               to="/contact"
               @click="closeMobileMenu"
+              @mouseenter="prefetchRoute('/contact')"
               class="block w-full px-4 py-2 text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all duration-300"
             >
               Get Quote
@@ -118,6 +127,8 @@
 
 <script setup>
 import { ref } from "vue";
+import { prefetchRoute } from "../router";
+import logoUrl from "../assets/Logo/24s-Logo-white.png";
 
 const mobileMenuOpen = ref(false);
 
