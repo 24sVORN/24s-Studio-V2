@@ -108,7 +108,7 @@
               <div
                 class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
               >
-                <component :is="service.icon" class="w-8 h-8 text-white" />
+                <i :class="service.icon" class="text-white text-2xl"></i>
               </div>
               <h3 class="text-xl font-semibold text-white mb-4">
                 {{ service.title }}
@@ -331,25 +331,25 @@ const services = ref([
     title: "Graphic Design",
     description:
       "Creating stunning visual identities that capture your brand essence and engage your audience.",
-    icon: "PaletteIcon",
+    icon: "fas fa-palette",
   },
   {
     title: "Video Editing",
     description:
       "Professional video production and editing services that tell your story with impact.",
-    icon: "VideoCameraIcon",
+    icon: "fas fa-video",
   },
   {
     title: "Social Media",
     description:
       "Strategic social media management to build your online presence and community.",
-    icon: "ShareIcon",
+    icon: "fas fa-share-alt",
   },
   {
     title: "Digital Marketing",
     description:
       "Data-driven marketing strategies that drive growth and maximize your ROI.",
-    icon: "ChartBarIcon",
+    icon: "fas fa-chart-bar",
   },
 ]);
 

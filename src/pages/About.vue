@@ -52,7 +52,7 @@
             <div
               class="aspect-square bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-2xl overflow-hidden"
             >
-              <img src="" alt="Our Team" class="w-full h-full object-cover" />
+              <img src="/placeholder.svg?height=600&width=600" alt="Our Team" class="w-full h-full object-cover" />
             </div>
           </div>
         </div>
