@@ -62,12 +62,14 @@ import Navbar from "./components/Navbar.vue";
 const route = useRoute();
 const showScrollTop = ref(false);
 const transitionName = ref("slide-left");
+const reduceMotion = ref(false);
+let mediaQuery;
 
 // Scroll to top functionality
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
-    behavior: "smooth",
+    behavior: reduceMotion.value ? "auto" : "smooth",
   });
 };
 
@@ -94,11 +96,23 @@ watch(
 
 // Transition hooks
 const beforeEnter = (el) => {
+  if (reduceMotion.value) {
+    el.style.opacity = "1";
+    el.style.transform = "none";
+    return;
+  }
   el.style.opacity = "0";
   el.style.transform = "translateY(30px)";
 };
 
 const enter = (el, done) => {
+  if (reduceMotion.value) {
+    el.style.transition = "none";
+    el.style.opacity = "1";
+    el.style.transform = "none";
+    requestAnimationFrame(done);
+    return;
+  }
   el.offsetHeight; // trigger reflow
   el.style.transition = "all 0.5s ease-out";
   el.style.opacity = "1";
@@ -107,6 +121,11 @@ const enter = (el, done) => {
 };
 
 const leave = (el, done) => {
+  if (reduceMotion.value) {
+    el.style.transition = "none";
+    requestAnimationFrame(done);
+    return;
+  }
   el.style.transition = "all 0.3s ease-in";
   el.style.opacity = "0";
   el.style.transform = "translateY(-20px)";
@@ -114,11 +133,35 @@ const leave = (el, done) => {
 };
 
 onMounted(() => {
+  // Observe prefers-reduced-motion
+  if (typeof window !== "undefined" && window.matchMedia) {
+    const updateReduce = () => {
+      reduceMotion.value = mediaQuery.matches;
+    };
+    mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    updateReduce();
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", updateReduce);
+    } else if (mediaQuery.addListener) {
+      mediaQuery.addListener(updateReduce);
+    }
+  }
+
   window.addEventListener("scroll", handleScroll);
 });
 
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
+  if (mediaQuery) {
+    const updateReduce = () => {
+      reduceMotion.value = mediaQuery.matches;
+    };
+    if (mediaQuery.removeEventListener) {
+      mediaQuery.removeEventListener("change", updateReduce);
+    } else if (mediaQuery.removeListener) {
+      mediaQuery.removeListener(updateReduce);
+    }
+  }
 });
 </script>
 
