@@ -6,3 +6,33 @@
   background-clip: text;
   color: transparent;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Explicitly disable decorative animations */
+  .animate-float,
+  .animate-float-delayed,
+  .animate-float-slow,
+  .floating-blob,
+  .floating-particles::before,
+  .floating-particles::after,
+  .fade-up-enter-active,
+  .fade-up-leave-active,
+  .slide-left-enter-active,
+  .slide-left-leave-active,
+  .slide-right-enter-active,
+  .slide-right-leave-active,
+  .mobile-menu-enter-active,
+  .mobile-menu-leave-active,
+  .fade-enter-active,
+  .fade-leave-active {
+    animation: none !important;
+    transition: none !important;
+  }
+}

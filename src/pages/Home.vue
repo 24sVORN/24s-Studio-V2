@@ -415,6 +415,20 @@ const testimonials = ref([
 onMounted(() => {
   const counters = document.querySelectorAll(".counter");
 
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // If user prefers reduced motion, set values immediately and skip animations
+  if (prefersReduced) {
+    counters.forEach((counter) => {
+      const target = parseInt(counter.getAttribute("data-target"));
+      counter.textContent = isNaN(target) ? "0" : String(target);
+    });
+    return;
+  }
+
   const animateCounter = (counter) => {
     const target = parseInt(counter.getAttribute("data-target"));
     const increment = target / 100;

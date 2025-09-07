@@ -42,10 +42,14 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (savedPosition) {
       return savedPosition;
     } else {
-      return { top: 0, behavior: "smooth" };
+      return { top: 0, behavior: prefersReduced ? "auto" : "smooth" };
     }
   },
 });
