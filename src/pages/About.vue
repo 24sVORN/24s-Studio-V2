@@ -52,7 +52,7 @@
             <div
               class="aspect-square bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-2xl overflow-hidden"
             >
-              <img src="" alt="Our Team" class="w-full h-full object-cover" />
+              <img src="" alt="Our Team" class="w-full h-full object-cover" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>
@@ -81,6 +81,8 @@
                 :src="member.image"
                 :alt="member.name"
                 class="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
             <h3 class="text-xl font-bold mb-2 text-white">{{ member.name }}</h3>
