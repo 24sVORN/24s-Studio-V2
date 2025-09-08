@@ -9,7 +9,7 @@
           <img
             src="../assets/Logo/24s-Logo-white.png"
             alt="logo"
-            class="w-28 h-28 object-contain"
+            class="h-10 w-auto object-contain"
           />
         </router-link>
         <!-- Desktop Navigation -->
